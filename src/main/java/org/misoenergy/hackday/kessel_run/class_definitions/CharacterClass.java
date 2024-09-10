@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Class {
+public class CharacterClass {
     private String name;
     private String summary;
     private String flavorText;
