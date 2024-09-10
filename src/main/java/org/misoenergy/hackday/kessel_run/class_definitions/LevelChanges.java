@@ -1,6 +1,5 @@
 package org.misoenergy.hackday.kessel_run.class_definitions;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
