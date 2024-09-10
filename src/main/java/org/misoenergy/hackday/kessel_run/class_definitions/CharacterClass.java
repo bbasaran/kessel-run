@@ -13,6 +13,7 @@ import java.util.Map;
 public class CharacterClass {
     private String name;
     private String summary;
+    private String primaryAbility;
     private String flavorText;
     private String creatingText;
     private String quickBuildText;
