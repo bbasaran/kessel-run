@@ -20,7 +20,8 @@ configurations {
 }
 
 repositories {
-	mavenCentral()
+//	Will need to change this to non miso nexus once outside hackday
+	maven("https://nexus.misoenergy.org/repository/public/")
 }
 
 dependencies {
