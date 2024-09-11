@@ -3,8 +3,10 @@ package org.misoenergy.hackday.kessel_run.service;
 import lombok.extern.slf4j.Slf4j;
 import org.misoenergy.hackday.kessel_run.model.StarWarsPojo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.File;
 import java.util.Arrays;
@@ -24,28 +26,38 @@ public class StarWarsApiService {
 
     public List<StarWarsPojo> getClassData () {
 
-        return getClassDataRestTemplate();
+        //return getClassDataRestTemplate();
 
-        //return getClassDataWebClient();
-
+        return getClassDataWebClient();
     }
-
 
     private List<StarWarsPojo> getClassDataRestTemplate() {
 
         StarWarsPojo[] response = restTemplate.getForObject(url, StarWarsPojo[].class);
         List<StarWarsPojo> starWarsPojoList = Arrays.stream(response).toList();
 
-        log.info("size of response is: {}", starWarsPojoList.size());
+        log.info("Using rest template: size of response is: {}", starWarsPojoList.size());
 
         return starWarsPojoList;
     }
 
-    /*private List<StarWarsPojo> getClassDataWebClient () {
+    private List<StarWarsPojo> getClassDataWebClient () {
 
-        return WebClient.builder().build().get().uri(url).retrieve().bodyToMono(StarWarsPojo::class.java)
+        StarWarsPojo[] response = WebClient.builder()
+                .build()
+                .get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(StarWarsPojo[].class)
+                .block();
 
-    }*/
+        List<StarWarsPojo> starWarsPojoList = Arrays.stream(response).toList();
+
+        log.info("Using webclient: size of response is: {}", starWarsPojoList.size());
+
+        return starWarsPojoList;
+    }
 
 
     public void generatePojoFromJSON() {
