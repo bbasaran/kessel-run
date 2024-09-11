@@ -1,16 +1,22 @@
 package org.misoenergy.hackday.kessel_run.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.misoenergy.hackday.kessel_run.model.StarWarsPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.function.Tuple2;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -64,20 +70,28 @@ public class StarWarsApiService {
 
         String packageName = "org.misoenergy.hackday.kessel_run.model";
 
+        Map<String, File> pojoList = new HashMap<>();
+
         String jsonPath = "src/main/resources/";
-        File inputJson = new File(jsonPath + "starwarsjsonresponse.json");
+        File classJson = new File(jsonPath + "starwarsjsonresponse.json");
+        File equipmentJson = new File(jsonPath + "equipment.json");
+        String classClassName = "StarWarsPojo";
+        String equipmentClassName = "EquipmentPojo";
+
+        pojoList.put(classClassName, classJson);
+        pojoList.put(equipmentClassName, equipmentJson);
 
         String outputPath = "src/main/resources/";
         File outputJavaClassDirectory = new File(outputPath);
 
-        String javaClassName = "StarWarsPojo";
 
-        try {
-            jsonToPojoConcerterService.convertJsonToJavaClass(inputJson.toURI()
-                    .toURL(), outputJavaClassDirectory, packageName, javaClassName ) ;
-
-        }catch (Exception ex) {
-            log.info("exception : {}" , ex.getMessage() );
-        }
+        pojoList.forEach((className, pojoJson) -> {
+            try {
+                jsonToPojoConcerterService.convertJsonToJavaClass(pojoJson.toURI()
+                        .toURL(), outputJavaClassDirectory, packageName, className);
+            } catch (Exception e) {
+                log.info("exception : {}", e.getMessage());
+            }
+        });
     }
 }
