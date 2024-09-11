@@ -24,7 +24,9 @@ public class PCGenExporterTest {
     void exporterCreatesFileWhenNoneExists() {
         exporter = new PCGenExporter();
         File file = new File("sw5eClasses.lst");
+
         deleteFileIfExists(file);
+
         exporter.export(file);
         assertTrue(file.isFile());
     }
@@ -42,11 +44,20 @@ public class PCGenExporterTest {
 
         assertTrue(reader.readLine() == null);
 
+        reader.close();
     }
 
     void deleteFileIfExists(File file) {
-        if(!file.exists()) {
-            file.delete();
+        boolean isDeleted = true;
+
+        if(file.exists()) {
+            isDeleted = file.delete();
+        }
+
+        if (isDeleted) {
+            System.out.println("File Deleted");
+        } else {
+            System.out.println("Unable to Delete File");
         }
     }
 
