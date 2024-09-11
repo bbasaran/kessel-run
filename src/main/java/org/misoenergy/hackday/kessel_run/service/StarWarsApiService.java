@@ -1,10 +1,14 @@
 package org.misoenergy.hackday.kessel_run.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.misoenergy.hackday.kessel_run.model.FlavorText;
+import org.misoenergy.hackday.kessel_run.model.StarWarsPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -13,12 +17,55 @@ public class StarWarsApiService {
     @Autowired
     RestTemplate restTemplate;
 
-    public FlavorText getClassData () {
+    @Autowired
+    private JsonToPojoConcerterService jsonToPojoConcerterService;
 
-        String url = "https://sw5eapi.azurewebsites.net/api/class";
-        String response = restTemplate.getForObject(url, String.class);
-        log.info("response is:" + response);
+    private String url = "https://sw5eapi.azurewebsites.net/api/class";
 
-        return null;
+    public List<StarWarsPojo> getClassData () {
+
+        return getClassDataRestTemplate();
+
+        //return getClassDataWebClient();
+
+    }
+
+
+    private List<StarWarsPojo> getClassDataRestTemplate() {
+
+        StarWarsPojo[] response = restTemplate.getForObject(url, StarWarsPojo[].class);
+        List<StarWarsPojo> starWarsPojoList = Arrays.stream(response).toList();
+
+        log.info("size of response is: {}", starWarsPojoList.size());
+
+        return starWarsPojoList;
+    }
+
+    /*private List<StarWarsPojo> getClassDataWebClient () {
+
+        return WebClient.builder().build().get().uri(url).retrieve().bodyToMono(StarWarsPojo::class.java)
+
+    }*/
+
+
+    public void generatePojoFromJSON() {
+
+        String packageName = "org.misoenergy.hackday.kessel_run.model";
+
+        String jsonPath = "src/main/resources/";
+        File inputJson = new File(jsonPath + "starwarsjsonresponse.json");
+
+        String outputPath = "src/main/resources/";
+        File outputJavaClassDirectory = new File(outputPath);
+
+        String javaClassName = "StarWarsPojo";
+
+        try {
+            jsonToPojoConcerterService.convertJsonToJavaClass(inputJson.toURI()
+                    .toURL(), outputJavaClassDirectory, packageName, javaClassName ) ;
+
+        }catch (Exception ex) {
+            log.info("exception : {}" , ex.getMessage() );
+        }
     }
 }
