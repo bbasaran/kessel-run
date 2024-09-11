@@ -1,22 +1,22 @@
 package org.misoenergy.hackday.kessel_run;
 
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.misoenergy.hackday.kessel_run.class_definitions.CharacterClass;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 
-@SpringBootTest
+@RunWith(JUnit4.class)
 public class PCGenConverterTests {
 
     @Test
     void convertToPCGen() {
-        File pcGenOutput = new File("sw5eClasses.lst");
+        File pcGenOutput = new File("sw5eEquipment.lst");
         List<CharacterClass> classes = new ArrayList<CharacterClass>();
 
         PCGenConverter converter = new PCGenConverter();
@@ -27,7 +27,7 @@ public class PCGenConverterTests {
 
     @Test
     void converterWritesCharacterClassesToFile() throws IOException {
-        File pcGenOutput = new File("sw5eClasses.lst");
+        File pcGenOutput = new File("sw5eEquipment.lst");
         List<CharacterClass> classes = createTestCharacterClasses();
 
         PCGenConverter converter = new PCGenConverter();

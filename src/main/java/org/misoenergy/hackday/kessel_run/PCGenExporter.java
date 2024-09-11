@@ -20,9 +20,9 @@ public class PCGenExporter {
         if (file.createNewFile()) {
             System.out.println("File created: " + file.getName());
         } else {
-            System.out.println("File already exists. Deleting and re-running");
-            file.delete();
-            createOutputFile(file);
+//            System.out.println("File already exists. Deleting and re-running");
+//            file.delete();
+//            file.createNewFile();
         }
     }
 
