@@ -20,6 +20,7 @@ configurations {
 }
 
 repositories {
+//	Will need to change this to non miso nexus once outside hackday
 	maven("https://nexus.misoenergy.org/repository/public/")
 }
 
@@ -27,6 +28,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.jsonschema2pojo:jsonschema2pojo-core:1.1.1")
+	testImplementation("junit:junit:4.13.1")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
