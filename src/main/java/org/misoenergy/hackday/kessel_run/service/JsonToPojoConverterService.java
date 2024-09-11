@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 
 @Service
-public class JsonToPojoConcerterService {
+public class JsonToPojoConverterService {
 
     public void convertJsonToJavaClass(URL inputJsonUrl, File outputJavaClassDirectory, String packageName, String javaClassName)
             throws IOException {

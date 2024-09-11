@@ -20,7 +20,7 @@ public class StarWarsApiService {
     RestTemplate restTemplate;
 
     @Autowired
-    private JsonToPojoConcerterService jsonToPojoConcerterService;
+    private JsonToPojoConverterService jsonToPojoConcerterService;
 
     private String url = "https://sw5eapi.azurewebsites.net/api/class";
 
