@@ -2,6 +2,7 @@ package org.misoenergy.hackday.kessel_run;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.*;
@@ -9,7 +10,7 @@ import java.io.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnit4.class)
 public class PCGenExporterTest {
 
 
@@ -23,8 +24,10 @@ public class PCGenExporterTest {
     @Test
     void exporterCreatesFileWhenNoneExists() {
         exporter = new PCGenExporter();
-        File file = new File("sw5eClasses.lst");
+        File file = new File("sw5eEquipment.lst");
+
         deleteFileIfExists(file);
+
         exporter.export(file);
         assertTrue(file.isFile());
     }
@@ -32,7 +35,7 @@ public class PCGenExporterTest {
     @Test
     void exporterRecreatesFileWhenExists() throws IOException {
         exporter = new PCGenExporter();
-        File file = new File("sw5eClasses.lst");
+        File file = new File("sw5eEquipment.lst");
 
         deleteFileIfExists(file);
         createFileWithData(file);
@@ -41,12 +44,20 @@ public class PCGenExporterTest {
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
         assertTrue(reader.readLine() == null);
-
+        reader.close();
     }
 
     void deleteFileIfExists(File file) {
-        if(!file.exists()) {
-            file.delete();
+        boolean isDeleted = true;
+
+        if(file.exists()) {
+            isDeleted = file.delete();
+        }
+
+        if (isDeleted) {
+            System.out.println("File Deleted");
+        } else {
+            System.out.println("Unable to Delete File");
         }
     }
 
